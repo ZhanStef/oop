@@ -73,18 +73,24 @@ void left_diagonal(int *ptrarray[], int N){
 
 void spiral_from_center(int *ptrarray[], int N){
     cout << "\n center spiral" << endl;
-    int *ptr=new int[N*N];
-    cout << "\nСередина "<< N/2;
-    for(int i=0, step=1, dir=1, x=N/2, y=N/2, ptr[i++]=ptrarray[x][y]; (x<N) && (y<N); dir=-1*dir, step++){
+    int *ptr=new int[N*N]();
+    cout << "\nСередина "<< N/2<< ";" << N/2 << endl;
+    ptr[0]=ptrarray[N/2][N/2];
+    for(int i=1, step=1, dir=1, x=N/2, y=N/2; (x<N) && (y<N) && step<=N; dir=-1*dir, step++){
         int count_step=0;
-        while(count_step++<step){
-            ptr[i++]=ptrarray[x][y+dir];
+        while(count_step++<step && (x<N) && (y<N) && step<=N){
+            y=y+dir;
+            cout << "\nзапись номер ("<< x << ";" << y << ") эл: " << ptrarray[x][y];
+            ptr[i++]=ptrarray[x][y];
         }
         count_step=0;
-        while(count_step++<step){
-            ptr[i++]=ptrarray[x+dir][y];
+        while(count_step++<step && (x<N) && (y<N) && step<=N){
+            x=x+dir;
+            cout << "\nзапись номер ("<< x << ";" << y << ") эл: " << ptrarray[x][y];
+            ptr[i++]=ptrarray[x][y];
         }
     }
+    cout << endl;
     for(int h=0; h<N*N; h++)  cout << setw(4) << ptr[h];
     delete ptr;
 }
