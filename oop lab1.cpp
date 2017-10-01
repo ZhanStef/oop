@@ -9,6 +9,7 @@ void right_diagonal(int **ptrarray, int N);
 void left_diagonal(int **ptrarray, int N);
 void spiral_from_center(int *ptrarray[], int N);
 void spiral_from_0_0(int *ptrarray[], int N);
+void print_array(int **ptrarray, int N);
 
 int main(int argc, char *argv[])
 {
@@ -25,18 +26,24 @@ int main(int argc, char *argv[])
     for (int count_row = 0; count_row < N; count_row++)
         for (int count_column = 0; count_column < N; count_column++)
             ptrarray[count_row][count_column] = (rand() % 10 + 1); //çàïîëíåíèå ìàññèâà ñëó÷àéíûìè ÷èñëàìè
-    // âûâîä ìàññèâà
-    cout << "Array generated:"<< endl;
-    for (int count_row = 0; count_row < N; count_row++)
-    {
-        for (int count_column = 0; count_column < N; count_column++)
-            cout << setw(4)<< ptrarray[count_row][count_column] << "   ";
-        cout << endl;
-    }
+    
+    // print array generated
+	print_array(ptrarray, N);
     right_diagonal(ptrarray, N);
+
+    // print array generated
+	print_array(ptrarray, N);
     left_diagonal(ptrarray, N);
+
+    // print array generated
+	print_array(ptrarray, N);
     spiral_from_center(ptrarray, N);
+    
+	// print array generated
+	print_array(ptrarray, N);
 	spiral_from_0_0(ptrarray, N);
+	print_array(ptrarray, N);
+	
     // delete first array
     for (int count = 0; count < 2; count++)
         delete []ptrarray[count];
@@ -76,7 +83,7 @@ void left_diagonal(int *ptrarray[], int N){
 void spiral_from_center(int *ptrarray[], int N){
     cout << "\n center spiral" << endl;
     int *ptr=new int[N*N](), total=N*N;
-    cout << "\nСередина "<< (N-1)/2<< ";" << (N-1)/2 << endl;
+    cout << "Fist element "<< (N-1)/2<< ";" << (N-1)/2;
     ptr[0]=ptrarray[(N-1)/2][(N-1)/2];
     total--;
     for(int i=1, step=1, dir=1, x=(N-1)/2, y=(N-1)/2; 
@@ -87,8 +94,8 @@ void spiral_from_center(int *ptrarray[], int N){
         while(count_step++<step && x>=0 && (x<N) && (y+dir<N) && (y+dir>=0)
         && total>0){
             y=y+dir;
-            cout << "\nзапись номер ("<< x << ";" << y << ") шаг: "
-            << step <<" эл: " << ptrarray[x][y];
+            cout << "\nElement: ("<< x << ";" << y << ") step: "
+            << step <<" Value: " << ptrarray[x][y];
             ptr[i++]=ptrarray[x][y];
             total--;
         }
@@ -96,8 +103,8 @@ void spiral_from_center(int *ptrarray[], int N){
         while(count_step++<step && (x+dir<N) && (x+dir>=0) && (y<N)
         && (y>=0) && total>0){
             x=x+dir;
-            cout << "\nзапись номер ("<< x << ";" << y << ") шаг: "
-            << step <<" эл: " << ptrarray[x][y];
+            cout << "\nElement: ("<< x << ";" << y << ") step: "
+            << step <<" Value: " << ptrarray[x][y];
             ptr[i++]=ptrarray[x][y];
             total--;
         }
@@ -107,31 +114,50 @@ void spiral_from_center(int *ptrarray[], int N){
     delete ptr;
 }
 
-
 void spiral_from_0_0(int *ptrarray[], int N){
     cout << "\n spiral from [0;0]" << endl;
-    int *ptr=new int[N*N]();
-    int i=0, x=0, y=0, step=N-1, dir=1;
-    for(;i<N; i++, y++){
+    int *ptr=new int[N*N](), total=N*N;
+    int i=0, x=0, y=0, step=N, dir=1;
+    for(; i<step; i++, y++){
 		ptr[i]=ptrarray[x][y];
+        cout << "\nElement: ("<< x << ";" << y << ") step: "
+        << step <<" Value: " << ptrarray[x][y];
+        ptr[i]=ptrarray[x][y];
+        total--;
 	}
-    for(i++; step>0; step--){
+	y--;
+	step--;
+    for(; step>0; step--){
         int count_step=0;
-        while(count_step++<step){
+        while(count_step++<step && total>0 && x+dir>=0 && x+dir<N){
             x+=dir;
-            cout << "\nзапись номер ("<< x << ";" << y << ") эл: " << ptrarray[x][y];
+            cout << "\nElement: ("<< x << ";" << y << ") step: "
+            << step <<" Value: " << ptrarray[x][y];
             ptr[i++]=ptrarray[x][y];
+            total--;
         }
         dir=-dir;
         count_step=0;
-        while(count_step++<step){
+        while(count_step++<step && total>0 && y+dir>=0 && y+dir<N){
             y+=dir;
-            cout << "\nзапись номер ("<< x << ";" << y << ") эл: " << ptrarray[x][y];
+            cout << "\nElement: ("<< x << ";" << y << ") step: "
+            << step <<" Value: " << ptrarray[x][y];
             ptr[i++]=ptrarray[x][y];
+            total--;
         }
-        dir=-dir;
     }
     cout << endl;
     for(int h=0; h<N*N; h++)  cout << setw(4) << ptr[h];
     delete ptr;
+}
+
+void print_array(int **ptrarray, int N){
+    cout << "\nArray generated:"<< endl;
+    for (int count_row = 0; count_row < N; count_row++)
+    {
+        for (int count_column = 0; count_column < N; count_column++)
+            cout << setw(4)<< ptrarray[count_row][count_column] << "   ";
+        cout << endl;
+    }
+
 }
